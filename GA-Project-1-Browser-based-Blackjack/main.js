@@ -25,6 +25,3 @@ function renderDeck() {
         document.querySelector('body').append(cardEl)
     })
 }
-
-generateDeck()
-renderDeck()
