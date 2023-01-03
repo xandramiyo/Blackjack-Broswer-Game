@@ -3,42 +3,36 @@ body {
     padding:  0;
     height: 100%;
     width: 100%;
-    background-color: black;
-}
-
-section {
-    display: flex;
-    position: relative;
-    width: 100%;
-    height: 100vh;
-    justify-content: center;
-    z-index: 1;
-}
-
-section::before {
-    content: '';
-    position: absolute;
-    top: 0;
-    left: 0;
-    width: 100%;
-    height: 100%;
-    background-color: rgb(54 105 86);
-    border-radius: 0 0 50% 50%/ 0 0 100% 100%;;
-    transform: scaleX(1.5)
 }
 
 .table {
+    background: #1F5F5B;
+    height: 90vh;
+    width: 90vh;
     display: flex;
-    flex-direction: column;
-    position: absolute;
-    top: 30%;
+    flex-wrap: wrap;
+    align-items: center;
+    justify-content: center;
+    margin: auto;
+    border: 4px solid black;
 }
 
-.title {
+.dealer{ 
+    display: flex;
+    flex-direction: row;
+    position: relative;
+    bottom: 0;
+    height: 40%;
+    width: 100%;
+}
+
+ .title {
     display: flex;
     font-family: 'Noto Serif NP Hmong', serif;
     font-size: 2rem;
     margin: auto;
+    align-items: center;
+    justify-content: center;
 }
 
 .dealer_rules {
@@ -46,88 +40,70 @@ section::before {
     color: black;
     font-family: 'Bitter', serif;
     font-size: 1.5rem;
-    margin-top: 20px;
-    
-}
-
-.dealer {
-    height: 20vh;
-    width: 100vh;
-    display: flex;
+    align-items: center;
     justify-content: center;
 }
 
-.deck {
-    height: 6rem;
-    width: 4rem;
-    border: 4px solid black;
-    margin: auto;
-    position: absolute;
-    top: 20px;
-    left: 30%;
-}
-
 .player {
-    position: absolute;
-    margin: 0;
-    height: 100vh;
-    width: 100vh;
-    z-index: 2;
+    display: grid;
+    grid-template-rows: 4fr 1.5fr .5fr;
+    position: relative;
+    bottom: 0;
+    height: 40%;
+    width: 100%;
+    /* justify-content: center;
+    align-items: center; */
 }
 
-.casino {
-    font-family: 'PT Sans Caption', sans-serif;
-    font-size: .8rem;  
-    color: rgb(137 204 181); 
-    font-weight: 900;
-    position: absolute;
-    margin: auto;
-    position: absolute;
-    bottom: 10px;
-    left: 0;
-    right: 0;
-    z-index: 2;
-    text-align: center;
+.playerHand {
+    top: 0;
+    display: flex;
+    flex-wrap: wrap;
+    justify-content: center;
 }
 
-.circle {
-    width: 10rem;
-    height: 10rem;
-    border-radius: 100px;
-    border: 4px solid black;
-    margin: auto;
-    position: absolute;
-    bottom: 50px;
-    left: 0;
-    right: 0;
+.playerHand > div {
+    height: 5rem; 
+    width: 3rem;
+    margin: 0 1rem 0 1rem;
     z-index: 2;
 }
 
 .buttons {
     display: flex;
-    position: absolute;
-    flex-direction: column-reverse;
-    margin: auto;
-    bottom: 10%;
-    left: 75%;
+    height: 4rem;
+    width: 100%;
+    justify-content: space-evenly;
 }
 
 button {
     height: 4rem; 
-    width: 4rem;
-    border-radius: 100%;
-    padding: 10px;
+    width: 5rem;
+    border-radius: 30%;
     font-family: 'PT Sans Caption', sans-serif;
-    background-color: rgb(137 204 181);
-    border: 3px solid black;
+    background-color: rgb(114, 187, 163);
+    border: 2px solid rgb(93, 142, 124);
     cursor: pointer;
+    box-shadow: 1.5px 5px rgb(93, 142, 124)
 }
 
-.buttons button + button {
-    margin-left: 75%;
-    margin-bottom: 0;
+button:active {
+    background-color: rgb(86, 156, 130);
+    box-shadow: 0 5px rgb(57, 87, 76);
+    transform: translateY(5px);
+  }
+
+button:disabled {
+    box-shadow: 0 5px rgb(57, 87, 76);
+    transform: translateY(0px);
 }
 
-.buttons button + button + button {
-    margin-left: 150%;
+.casino {
+    font-family: 'PT Sans Caption', sans-serif;
+    font-size: .9rem;  
+    color: rgb(172, 214, 198); 
+    font-weight: 900;
+    display: flex;
+    justify-content: center;
+    align-items: flex-end;
 }
