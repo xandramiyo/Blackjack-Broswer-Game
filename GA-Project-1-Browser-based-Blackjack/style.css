@@ -1,12 +1,12 @@
 body {
     margin: 0;
     padding:  0;
-    height: 100%;
-    width: 100%;
+    height: 100vh;
+    width: 100vh;
 }
 
 .table {
-    background: #1F5F5B;
+    background: linear-gradient(to top, rgb(111, 99, 146), rgb(174, 162, 211)) no-repeat;
     height: 90vh;
     width: 90vh;
     display: flex;
@@ -18,12 +18,22 @@ body {
 }
 
 .dealer{ 
-    display: flex;
-    flex-direction: row;
-    position: relative;
-    bottom: 0;
-    height: 40%;
+    display: grid;
+    grid-template-rows: 1fr 5fr;
+    height: 30%;
     width: 100%;
+}
+
+.dealerHand {
+    display: flex;
+    flex-wrap: wrap;
+    justify-content: center;
+    align-items: center;
+}
+
+.dealerHand > div {
+    justify-content: space-evenly;
+    margin: 0 .5rem 0 .5rem;
 }
 
  .title {
@@ -37,6 +47,7 @@ body {
 
 .dealer_rules {
     position: relative;
+    display: flex;
     color: black;
     font-family: 'Bitter', serif;
     font-size: 1.5rem;
@@ -44,15 +55,28 @@ body {
     justify-content: center;
 }
 
+.message {
+    display: flex;
+    width: 100%;
+    align-items: center;
+    justify-content: space-evenly;
+}
+
+h2 {
+    color: rgb(155, 119, 165);
+    font-size: 2.5rem;
+    text-align: center;
+    text-shadow: -1px -1px 0 white, 1px -1px 0 white, -1px 1px 0 white, 1px 1px 0 white;
+    /* width: 50%; */
+}
+
 .player {
     display: grid;
-    grid-template-rows: 4fr 1.5fr .5fr;
+    grid-template-rows: 4fr 1.5fr;
     position: relative;
     bottom: 0;
-    height: 40%;
+    height: 30%;
     width: 100%;
-    /* justify-content: center;
-    align-items: center; */
 }
 
 .playerHand {
@@ -60,13 +84,12 @@ body {
     display: flex;
     flex-wrap: wrap;
     justify-content: center;
+    align-items: center;
 }
 
 .playerHand > div {
-    height: 5rem; 
-    width: 3rem;
-    margin: 0 1rem 0 1rem;
-    z-index: 2;
+    justify-content: space-evenly;
+    margin: 0 .5rem 0 .5rem;
 }
 
 .buttons {
@@ -77,33 +100,44 @@ body {
 }
 
 button {
+    color: white;
+    font-size: 1.2rem;
     height: 4rem; 
     width: 5rem;
     border-radius: 30%;
     font-family: 'PT Sans Caption', sans-serif;
-    background-color: rgb(114, 187, 163);
-    border: 2px solid rgb(93, 142, 124);
+    background-color: rgb(106, 103, 173);
+    border: 2px solid rgb(79, 75, 143);
     cursor: pointer;
-    box-shadow: 1.5px 5px rgb(93, 142, 124)
+    box-shadow: 1.5px 5px rgb(62, 59, 112);
 }
 
 button:active {
-    background-color: rgb(86, 156, 130);
-    box-shadow: 0 5px rgb(57, 87, 76);
+    background-color: rgb(79, 76, 133);
+    box-shadow: 0 5px rgb(62, 59, 112);
     transform: translateY(5px);
   }
 
 button:disabled {
-    box-shadow: 0 5px rgb(57, 87, 76);
-    transform: translateY(0px);
+    background-color: rgb(79, 76, 133);
+    box-shadow: 0 5px rgb(62, 59, 112);
+    transform: translateY(5px);
 }
 
 .casino {
     font-family: 'PT Sans Caption', sans-serif;
     font-size: .9rem;  
-    color: rgb(172, 214, 198); 
+    color: white; 
     font-weight: 900;
     display: flex;
-    justify-content: center;
-    align-items: flex-end;
+    position: relative;
+    flex-direction: column;
+    justify-content: flex-end;
+    align-items: center;
+    margin-top: 10px;
+}
+
+img {
+    height: 3rem;
+    width: 3rem;
 }

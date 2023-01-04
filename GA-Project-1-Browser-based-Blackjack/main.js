@@ -24,6 +24,8 @@ let turn, winner, blackjack, playerHand, dealerHand
 const hitBtn = document.getElementById('hit')
 const stayBtn = document.getElementById('stay')
 const splitBtn = document.getElementById('split')
+let message = document.querySelector('h2')
+const resetBtnEl = document.createElement('button');
 
 
 /*----- event listeners -----*/
@@ -31,6 +33,7 @@ const splitBtn = document.getElementById('split')
 hitBtn.addEventListener('click', hit)
 stayBtn.addEventListener('click', stay)
 splitBtn.addEventListener('click',split)
+resetBtnEl.addEventListener('click', handleReset)
 
 
 /*----- functions -----*/
@@ -40,6 +43,8 @@ function init() {
     generateDeck()
     shuffleDeck()
     drawHands()
+    renderPlayerHand()
+    renderDealerHand()
 }
 
 function generateDeck() {
@@ -64,24 +69,16 @@ function shuffleDeck() {
 function drawHands() {
     playerHand = deck.splice(0, 2)
     dealerHand = deck.splice(0, 2)
-    if (sumHand(playerHand) >= 21) {
+    if (sumHand(playerHand) === 21) {
         hitBtn.setAttribute("disabled", "")
         stayBtn.setAttribute("disabled", "")
         splitBtn.setAttribute("disabled", "")
+        message.innerText = "BLACKJACK!"
         changeTurn()
     }
 }
 
-//This will generate a full deck of 52
-// function renderDeck() {
-//     deck.forEach(card => {
-//         const cardEl = document.createElement('div')
-//         cardEl.className = 'card ' + card.face
-//         document.querySelector('body').append(cardEl)
-//     })
-// }
-
-function renderHands() {
+function renderPlayerHand() {
     document.querySelector('.playerHand').innerHTML = " "
     playerHand.forEach(card => {
         const cardEl = document.createElement('div')
@@ -89,21 +86,28 @@ function renderHands() {
         document.querySelector('.playerHand').append(cardEl)
 })}
 
+function renderDealerHand() {
+    document.querySelector('.dealerHand').innerHTML = " "
+    dealerHand.forEach(card => {
+        const cardEl = document.createElement('div')
+        cardEl.className = 'card ' + card.face
+        document.querySelector('.dealerHand').append(cardEl)
+})}
+
 function hit() {
     playerHand.push(deck.shift())
-    if (sumHand(playerHand) >= 21) {
-        hitBtn.setAttribute("disabled", "")
-        stayBtn.setAttribute("disabled", "")
-        splitBtn.setAttribute("disabled", "")
-        changeTurn()
-    }
+    renderPlayerHand()
+    checkWinner()
 }
 
 function stay() {
-    changeTurn()
     stayBtn.setAttribute("disabled", "")
     hitBtn.setAttribute("disabled", "")
     splitBtn.setAttribute("disabled", "")
+    if (turn === 1) {
+        changeTurn()
+        dealerPlay()
+    }
 }
 
 // function split() {
@@ -138,15 +142,66 @@ function changeTurn() {
 
 function dealerPlay() {
     if (sumHand(dealerHand) < 17) {
-        dealerHand.push(deck.shift());
-    } else { stay();
+        dealerHand.push(deck.shift())
+        renderDealerHand()
+    } else { 
+        stay()
     }
+    checkWinner()
 }
 
 function checkWinner() {
-    if (sumHand(playerHand) > sumHand(dealerHand)) {
-        winner = PLAYERS
+    if (turn === 1) {  
+        if (sumHand(playerHand) === 21) {
+            hitBtn.setAttribute("disabled", "")
+            stayBtn.setAttribute("disabled", "")
+            splitBtn.setAttribute("disabled", "")
+            changeTurn()
+        } else if (sumHand(playerHand) > 21) {
+            hitBtn.setAttribute("disabled", "")
+            stayBtn.setAttribute("disabled", "")
+            splitBtn.setAttribute("disabled", "")
+            message.innerText = 'Player busts! Dealer wins!'
+        } 
+    }
+    if (turn === -1) {
+        if (sumHand(dealerHand) === (sumHand(playerHand))) {
+            message.innerText = "It's a Push!"
+        } else if (sumHand(dealerHand) > 21) {
+            message.innerText = "Dealer busts! Player wins!"
+        } else if (sumHand(dealerHand) > sumHand(playerHand)) {
+            message.innerText = "Dealer Wins!"
+        } else if (sumHand(playerHand) > sumHand(dealerHand)) {
+            message.innerText = "Player Wins!"
+        }
+    }
+    if (message.innerText !== "") {
+        renderResetBtn()
     }
 } 
 
+function renderResetBtn() {
+    resetBtnEl.innerText = 'Play Again!'
+    document.querySelector('.message').append(resetBtnEl);
+}
+
+function handleReset () {
+    resetBtnEl.remove()
+    message.innerText = " "
+    hitBtn.removeAttribute("disabled")
+    stayBtn.removeAttribute("disabled")
+    splitBtn.removeAttribute("disabled")
+    init()
+}
+
 init()
+
+
+// This will generate a full deck of 52
+// function renderDeck() {
+//     deck.forEach(card => {
+//         const cardEl = document.createElement('div')
+//         cardEl.className = 'card ' + card.face
+//         document.querySelector('body').append(cardEl)
+//     })
+// }
