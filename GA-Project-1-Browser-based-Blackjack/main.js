@@ -24,9 +24,11 @@ let turn, winner, blackjack, playerHand, dealerHand
 const hitBtn = document.getElementById('hit')
 const stayBtn = document.getElementById('stay')
 const splitBtn = document.getElementById('split')
-let message = document.querySelector('h2')
-const resetBtnEl = document.createElement('button');
+const resetBtnEl = document.createElement('button')
+// const initGame = document.getElementbyId('play')
 
+let message = document.querySelector('h2')
+// let clear = document.querySelector('message')
 
 /*----- event listeners -----*/
  
@@ -34,11 +36,14 @@ hitBtn.addEventListener('click', hit)
 stayBtn.addEventListener('click', stay)
 splitBtn.addEventListener('click',split)
 resetBtnEl.addEventListener('click', handleReset)
+// initGame.addEventListener('click', init)
 
 
 /*----- functions -----*/
 
+
 function init() {
+    // clear.innerHTML = " "
     turn = 1
     generateDeck()
     shuffleDeck()
@@ -75,6 +80,7 @@ function drawHands() {
         splitBtn.setAttribute("disabled", "")
         message.innerText = "BLACKJACK!"
         changeTurn()
+        dealerPlay()
     }
 }
 
@@ -141,12 +147,17 @@ function changeTurn() {
 }
 
 function dealerPlay() {
-    if (sumHand(dealerHand) < 17) {
-        dealerHand.push(deck.shift())
-        renderDealerHand()
-    } else { 
-        stay()
-    }
+  for (let i = sumHand(dealerHand); i <= 16; i++) {
+    dealerHand.push(deck.shift())
+    renderDealerHand()
+  }
+  
+    // if (sumHand(dealerHand) < 17) {
+    //     dealerHand.push(deck.shift())
+    //     renderDealerHand()
+    // } else { 
+    //     stay()
+    // }
     checkWinner()
 }
 
@@ -195,13 +206,3 @@ function handleReset () {
 }
 
 init()
-
-
-// This will generate a full deck of 52
-// function renderDeck() {
-//     deck.forEach(card => {
-//         const cardEl = document.createElement('div')
-//         cardEl.className = 'card ' + card.face
-//         document.querySelector('body').append(cardEl)
-//     })
-// }
