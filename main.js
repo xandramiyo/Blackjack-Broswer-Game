@@ -23,7 +23,6 @@ let turn, winner, blackjack, playerHand, dealerHand
 /*----- cached element references -----*/
 const hitBtn = document.getElementById('hit')
 const stayBtn = document.getElementById('stay')
-// const splitBtn = document.getElementById('split')
 const resetBtnEl = document.createElement('button')
 const playBtn = document.getElementById('play')
 
@@ -33,7 +32,6 @@ let message = document.querySelector('h2')
  
 hitBtn.addEventListener('click', hit)
 stayBtn.addEventListener('click', stay)
-// splitBtn.addEventListener('click',split)
 resetBtnEl.addEventListener('click', handleReset)
 playBtn.addEventListener('click', init)
 
@@ -75,7 +73,6 @@ function drawHands() {
     if (sumHand(playerHand) === 21) {
         hitBtn.setAttribute("disabled", "")
         stayBtn.setAttribute("disabled", "")
-        // splitBtn.setAttribute("disabled", "")
         message.innerText = "BLACKJACK!"
         changeTurn()
         dealerPlay()
@@ -113,17 +110,12 @@ function hit() {
 function stay() {
     stayBtn.setAttribute("disabled", "")
     hitBtn.setAttribute("disabled", "")
-    // splitBtn.setAttribute("disabled", "")
     if (turn === 1) {
         changeTurn()
         renderDealerHand()
         dealerPlay()
     }
 }
-
-// function split() {
-
-// }
 
 function sumHand(turn) {
     let sum = 0
@@ -173,12 +165,11 @@ function checkWinner() {
         if (sumHand(playerHand) === 21) {
             hitBtn.setAttribute("disabled", "")
             stayBtn.setAttribute("disabled", "")
-            // splitBtn.setAttribute("disabled", "")
             changeTurn()
+            dealerPlay()
         } else if (sumHand(playerHand) > 21) {
             hitBtn.setAttribute("disabled", "")
             stayBtn.setAttribute("disabled", "")
-            // splitBtn.setAttribute("disabled", "")
             message.innerText = 'Player busts! Dealer wins!'
             changeTurn()
             renderDealerHand()
@@ -212,6 +203,5 @@ function handleReset () {
     message.innerText = " "
     hitBtn.removeAttribute("disabled")
     stayBtn.removeAttribute("disabled")
-    // splitBtn.removeAttribute("disabled")
     init()
 }

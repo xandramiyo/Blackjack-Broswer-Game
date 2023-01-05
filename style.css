@@ -1,12 +1,16 @@
 body {
     margin: 0;
     padding: 0;
-    height: 100%;
-    width: 100%;
+    height: 100vh;
+    width: 100vw;
+    background:
+        linear-gradient(217deg, rgba(161, 105, 198, 0.8), rgba(174, 0, 255, 0) 70.71%),
+        linear-gradient(127deg, rgba(183, 226, 255, 0.8), rgba(0,255,0,0) 70.71%),
+        linear-gradient(336deg, rgba(217, 231, 236, 0.8), rgba(0,0,255,0) 70.71%);
 }
 
 .table {
-    background: linear-gradient(to top, rgb(111, 99, 146), rgb(174, 162, 211)) no-repeat;
+    background: linear-gradient(45deg, rgb(111, 99, 146), rgb(176, 165, 210)) no-repeat;
     height: 90vh;
     width: 90vh;
     display: flex;
@@ -29,6 +33,8 @@ body {
     flex-wrap: wrap;
     justify-content: center;
     align-items: center;
+    border: 2px solid white;
+    margin: 20px;
 }
 
 .dealerHand > div {
@@ -47,6 +53,7 @@ body {
     margin: auto;
     align-items: center;
     justify-content: center;
+    text-shadow: -1px -1px 0 white, 1px -1px 0 white, -1px 1px 0 white, 1px 1px 0 white;
 }
 
 .dealer_rules {
@@ -61,9 +68,11 @@ body {
 
 .message {
     display: flex;
+    height: 4rem;
     width: 100%;
     align-items: center;
     justify-content: space-evenly;
+    margin-top: 10px;
 }
 
 h2 {
@@ -88,6 +97,8 @@ h2 {
     flex-wrap: wrap;
     justify-content: center;
     align-items: center;
+    border: 2px solid white;
+    margin: 20px;
 }
 
 .playerHand > div {
