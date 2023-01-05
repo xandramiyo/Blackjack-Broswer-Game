@@ -60,10 +60,10 @@ function generateDeck() {
 
 function shuffleDeck() {
     for(let i = 0; i < deck.length; i++) {
-        let j = Math.floor(Math.random() * deck.length);
-        let temp = deck[i];
-        deck[i] = deck[j];
-        deck[j] = temp;
+        let j = Math.floor(Math.random() * deck.length)
+        let temp = deck[i]
+        deck[i] = deck[j]
+        deck[j] = temp
     }
 }
 
@@ -127,14 +127,14 @@ function sumHand(turn) {
                 temp = 1;
                 hasAce = true;
             };
-            if (turn[i]['face'].substr(1) === 'K') temp = 10; 
-            if (turn[i]['face'].substr(1) === 'Q') temp = 10;
-            if (turn[i]['face'].substr(1) === 'J') temp = 10;
+            if (turn[i]['face'].substr(1) === 'K') temp = 10
+            if (turn[i]['face'].substr(1) === 'Q') temp = 10
+            if (turn[i]['face'].substr(1) === 'J') temp = 10
         }
         sum += temp
     }
     if (hasAce) {
-       sum + 10 <= 21 ? sum += 10 : sum += 0;
+       sum + 10 <= 21 ? sum += 10 : sum += 0
         }
     return sum;
 }
