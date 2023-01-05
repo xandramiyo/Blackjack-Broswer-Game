@@ -23,27 +23,25 @@ let turn, winner, blackjack, playerHand, dealerHand
 /*----- cached element references -----*/
 const hitBtn = document.getElementById('hit')
 const stayBtn = document.getElementById('stay')
-const splitBtn = document.getElementById('split')
+// const splitBtn = document.getElementById('split')
 const resetBtnEl = document.createElement('button')
-// const initGame = document.getElementbyId('play')
+const playBtn = document.getElementById('play')
 
 let message = document.querySelector('h2')
-// let clear = document.querySelector('message')
 
 /*----- event listeners -----*/
  
 hitBtn.addEventListener('click', hit)
 stayBtn.addEventListener('click', stay)
-splitBtn.addEventListener('click',split)
+// splitBtn.addEventListener('click',split)
 resetBtnEl.addEventListener('click', handleReset)
-// initGame.addEventListener('click', init)
+playBtn.addEventListener('click', init)
 
 
 /*----- functions -----*/
 
-
 function init() {
-    // clear.innerHTML = " "
+    playBtn.innerHTML = " "
     turn = 1
     generateDeck()
     shuffleDeck()
@@ -73,11 +71,11 @@ function shuffleDeck() {
 
 function drawHands() {
     playerHand = deck.splice(0, 2)
-    dealerHand = deck.splice(0, 2)
+    dealerHand = deck.splice(0, 2) 
     if (sumHand(playerHand) === 21) {
         hitBtn.setAttribute("disabled", "")
         stayBtn.setAttribute("disabled", "")
-        splitBtn.setAttribute("disabled", "")
+        // splitBtn.setAttribute("disabled", "")
         message.innerText = "BLACKJACK!"
         changeTurn()
         dealerPlay()
@@ -94,11 +92,17 @@ function renderPlayerHand() {
 
 function renderDealerHand() {
     document.querySelector('.dealerHand').innerHTML = " "
-    dealerHand.forEach(card => {
+    dealerHand.forEach((card, idx) => {
         const cardEl = document.createElement('div')
-        cardEl.className = 'card ' + card.face
+        if(turn === 1 && idx === 0) {
+          cardEl.className = 'card back'
+        } else {
+          cardEl.className = 'card ' + card.face
+        }
         document.querySelector('.dealerHand').append(cardEl)
-})}
+    })
+}
+
 
 function hit() {
     playerHand.push(deck.shift())
@@ -109,9 +113,10 @@ function hit() {
 function stay() {
     stayBtn.setAttribute("disabled", "")
     hitBtn.setAttribute("disabled", "")
-    splitBtn.setAttribute("disabled", "")
+    // splitBtn.setAttribute("disabled", "")
     if (turn === 1) {
         changeTurn()
+        renderDealerHand()
         dealerPlay()
     }
 }
@@ -147,44 +152,50 @@ function changeTurn() {
 }
 
 function dealerPlay() {
-  for (let i = sumHand(dealerHand); i <= 16; i++) {
-    dealerHand.push(deck.shift())
     renderDealerHand()
-  }
-  
-    // if (sumHand(dealerHand) < 17) {
-    //     dealerHand.push(deck.shift())
-    //     renderDealerHand()
-    // } else { 
-    //     stay()
-    // }
+    if (sumHand(dealerHand) < 17) {
+        while (sumHand(dealerHand) <= 16) {
+            dealerHand.push(deck.shift())
+            setTimeout(renderDealerHand(), 1500)
+          }
+    } else if (sumHand(dealerHand) > 21) {
+        message.innerText = "Dealer busts! Player wins!"
+        renderResetBtn()
+    } else if (sumHand(dealerHand) >= 17) {  
+        checkWinner()
+    } 
     checkWinner()
 }
 
 function checkWinner() {
+    renderDealerHand()
     if (turn === 1) {  
         if (sumHand(playerHand) === 21) {
             hitBtn.setAttribute("disabled", "")
             stayBtn.setAttribute("disabled", "")
-            splitBtn.setAttribute("disabled", "")
+            // splitBtn.setAttribute("disabled", "")
             changeTurn()
         } else if (sumHand(playerHand) > 21) {
             hitBtn.setAttribute("disabled", "")
             stayBtn.setAttribute("disabled", "")
-            splitBtn.setAttribute("disabled", "")
+            // splitBtn.setAttribute("disabled", "")
             message.innerText = 'Player busts! Dealer wins!'
+            changeTurn()
+            renderDealerHand()
         } 
     }
-    if (turn === -1) {
+    else if (turn === -1) {
         if (sumHand(dealerHand) === (sumHand(playerHand))) {
             message.innerText = "It's a Push!"
         } else if (sumHand(dealerHand) > 21) {
             message.innerText = "Dealer busts! Player wins!"
         } else if (sumHand(dealerHand) > sumHand(playerHand)) {
             message.innerText = "Dealer Wins!"
-        } else if (sumHand(playerHand) > sumHand(dealerHand)) {
+        } else if (message.innerText === "BLACKJACK!") {
+            
+        } else if (sumHand(dealerHand) < sumHand(playerHand)) {
             message.innerText = "Player Wins!"
-        }
+        } 
     }
     if (message.innerText !== "") {
         renderResetBtn()
@@ -201,8 +212,6 @@ function handleReset () {
     message.innerText = " "
     hitBtn.removeAttribute("disabled")
     stayBtn.removeAttribute("disabled")
-    splitBtn.removeAttribute("disabled")
+    // splitBtn.removeAttribute("disabled")
     init()
 }
-
-init()
