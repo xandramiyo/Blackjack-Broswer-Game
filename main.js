@@ -71,11 +71,16 @@ function drawHands() {
     playerHand = deck.splice(0, 2)
     dealerHand = deck.splice(0, 2) 
     if (sumHand(playerHand) === 21) {
+        if(sumHand(dealerHand) !== 21) {
         hitBtn.setAttribute("disabled", "")
         stayBtn.setAttribute("disabled", "")
         message.innerText = "BLACKJACK!"
-        changeTurn()
-        dealerPlay()
+        renderDealerHand()
+        renderResetBtn()
+        } else if (sumHand(dealerHand) === 21) {
+            message.innerText = "It's a Push!"
+            renderResetBtn()
+        }
     }
 }
 
