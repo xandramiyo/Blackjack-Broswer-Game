@@ -28,15 +28,16 @@ const dealerDiv=  document.querySelector('.dealer')
 const hitBtn = document.getElementById('hit')
 const stayBtn = document.getElementById('stay')
 const resetBtnEl = document.createElement('button')
-const playBtn = document.getElementById('play')
 const ten = document.getElementById('ten')
 const twenty = document.getElementById('twenty')
 const fifty = document.getElementById('fifty')
 const hundred = document.getElementById('hundred')
-
 let games = document.getElementById('games')
 let wins = document.getElementById('wins')
 let bank = document.getElementById('bank')
+let betAmount = document.getElementById('betAmount')
+
+const betMsg = document.querySelector('.betMsg')
 let betBtns = document.querySelectorAll('.betBtn')
 let message = document.querySelector('h2')
 let statText = document.querySelector('stats')
@@ -49,23 +50,26 @@ let streak = document.querySelector('streak')
 hitBtn.addEventListener('click', hit)
 stayBtn.addEventListener('click', stay)
 resetBtnEl.addEventListener('click', handleReset)
-playBtn.addEventListener('click', init)
 
 
 ten.addEventListener('click', function() {
     bet = 10
+    betAmount.innerHTML = `Bet: $${bet}`
     placeBets()
 })
 twenty.addEventListener('click', function() {
     bet = 20
+    betAmount.innerHTML = `Bet: $${bet}`
     placeBets()
 })
 fifty.addEventListener('click', function() {
     bet = 50
+    betAmount.innerHTML = `Bet: $${bet}`
     placeBets()
 })
 hundred.addEventListener('click', function() {
     bet = 100
+    betAmount.innerHTML = `Bet: $${bet}`
     placeBets()
 })
 
@@ -74,9 +78,6 @@ hundred.addEventListener('click', function() {
 
 function init() {
     dealerDiv.classList.remove('hidden')
-
-    playBtnEnable()
-    playBtn.innerHTML = " "
     bank.innerHTML = `Bank: $${earnings}`
     turn = 1    
     generateDeck()
@@ -89,8 +90,12 @@ function init() {
 }
 
 function placeBets() {
-    handleReset()
-    betBtnDisable()
+    if(earnings != 0) {
+        handleReset()
+        betBtnDisable()
+    } else {
+        message.innerText = "You lost all your money 🤧 Refresh the page to play again!"
+    }
 }
 
 function generateDeck() {
@@ -117,14 +122,13 @@ function drawHands() {
     dealerHand = deck.splice(0, 2) 
     if (sumHand(playerHand) === 21) {
         if(sumHand(dealerHand) !== 21) {
-        playBtnDisable()
-        message.innerText = "BLACKJACK!"
+        playBtnsDisable()
+        message.innerText = "BLACKJACK! Place a bet to play again!"
         earnings += (bet + (bet * 1.5))
-        renderDealerHand()
-        // renderResetBtn()
+        handleReset()
         } else if (sumHand(dealerHand) === 21) {
             message.innerText = "It's a Push!"
-            // renderResetBtn()
+            handleReset()
         }
     }
 }
@@ -158,7 +162,7 @@ function hit() {
 }
 
 function stay() {
-    playBtnDisable()
+    playBtnsDisable()
     if (turn === 1) {
         changeTurn()
         renderDealerHand()
@@ -197,11 +201,9 @@ function dealerPlay() {
     if (sumHand(dealerHand) < 17) {
         while (sumHand(dealerHand) <= 16) {
             dealerHand.push(deck.shift())
-            setTimeout(renderDealerHand(), 1500)
           }
     } else if (sumHand(dealerHand) > 21) {
-        message.innerText = "Dealer busts! Player wins!"
-        // renderResetBtn()
+        message.innerText = "Dealer busts! Player wins! Place a bet to play again!"
     } else if (sumHand(dealerHand) >= 17) {  
         checkWinner()
     } 
@@ -212,50 +214,44 @@ function checkWinner() {
     renderDealerHand()
     if (turn === 1) {  
         if (sumHand(playerHand) === 21) {
-            playBtnDisable()
+            playBtnsDisable()
             changeTurn()
             dealerPlay()
         } else if (sumHand(playerHand) > 21) {
-            playBtnDisable()
-            message.innerText = "Player busts! Dealer wins!"
+            playBtnsDisable()
+            message.innerText = "Player busts! Dealer wins! Place a bet to play again!"
             changeTurn()
             renderDealerHand()
         } 
     }
     else if (turn === -1) {
         if (sumHand(dealerHand) === (sumHand(playerHand))) {
-            message.innerText = "It's a Push!"
+            message.innerText = "It's a Push! Place a bet to play again!"
         } else if (sumHand(dealerHand) > 21) {
-            message.innerText = "Dealer busts! Player wins!"
+            message.innerText = "Dealer busts! Player wins! Place a bet to play again!"
         } else if (sumHand(dealerHand) > sumHand(playerHand)) {
-            message.innerText = "Dealer Wins!"
-        } else if (message.innerText === "BLACKJACK!") {
+            message.innerText = "Dealer Wins! Place a bet to play again!"
+        } else if (message.innerText === "BLACKJACK! Place a bet to play again!") {
             
         } else if (sumHand(dealerHand) < sumHand(playerHand)) {
-            message.innerText = "Player Wins!"
+            message.innerText = "Player Wins! Place a bet to play again!"
         } 
     }
-    calcEarnings()
-    betBtnEnable()
     if (message.innerText !== "") {
-        // renderResetBtn()
+        calcEarnings()
+        betBtnEnable()
     }
 } 
 
-// function renderResetBtn() {
-//     resetBtnEl.innerText = "Play Again!"
-//     document.querySelector(".message").append(resetBtnEl);
-// }
-
 function handleReset() {
     resetBtnEl.remove()
-    playBtnEnable()
+    playBtnsEnable()
     init()
 }
 
 function winStreak() {
-    if (playBtn.innerHTML = " ") {
-        if ((message.innerText === "BLACKJACK!") || (message.innerText === "Player Wins!") || (message.innerText === "Dealer busts! Player wins!")) {
+    if (betMsg.innerHTML = " ") {
+        if(((sumHand(dealerHand) > 21) && (sumHand(playerHand) <= 21)) || ((sumHand(playerHand) > sumHand(dealerHand)) && (sumHand(playerHand) <= 21))) {
             gameCount += 1
             winCount += 1
             games.innerText = `Games: ${gameCount}`
@@ -268,16 +264,13 @@ function winStreak() {
 }
 
 function calcEarnings() {
-    console.log(bet)
-    if((message.innerText === "BLACKJACK!")) {
-        earnings += (bet + (bet * 1.5))
-    } else if((message.innerText === "Player Wins!") || (message.innerText === "Dealer busts! Player wins!")) {
+   if((sumHand(dealerHand) > 21) || ((sumHand(playerHand) > sumHand(dealerHand)) && (sumHand(playerHand) <= 21))) {
         earnings += bet
     } 
-    else if((message.innerText === "Dealer Wins!") || (message.innerText = "Player busts! Dealer wins!")) {
+    else if( (sumHand(playerHand) > 21) || ((sumHand(playerHand) < sumHand(dealerHand)) && (sumHand(dealerHand) <= 21))) {
         earnings -= bet
     }
-    return earnings
+    bank.innerHTML = `Bank: $${earnings}`
 }
 
 function betBtnDisable() {
@@ -292,15 +285,15 @@ function betBtnEnable() {
     twenty.removeAttribute("disabled")
     fifty.removeAttribute("disabled")
     hundred.removeAttribute("disabled")
-    playBtnDisable()
+    playBtnsDisable()
 }
 
-function playBtnEnable() {
+function playBtnsEnable() {
     hitBtn.removeAttribute("disabled")
     stayBtn.removeAttribute("disabled")
 }
 
-function playBtnDisable() {
+function playBtnsDisable() {
     hitBtn.setAttribute("disabled", "")
     stayBtn.setAttribute("disabled", "")
 }
