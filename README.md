@@ -22,7 +22,7 @@ For those who are curious about the text and icon at the bottom of the table, I 
 
 ## Play the Game! 
 
-[Click here to play](https://xandramiyo.github.io/Project-1/)
+[Click here to play](https://xandramiyo.github.io/Blackjack-Broswer-Game/)
 
 ## Future Enhancements
 
