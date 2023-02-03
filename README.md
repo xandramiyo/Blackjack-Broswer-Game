@@ -8,11 +8,7 @@ Once a bet has been made, the player and the "dealer" are dealt two cards, with 
 
 ![image of the initial hands that are drawn once the game has started](https://i.imgur.com/WRQs7ww.png)
 
-A message will also be rendered at the end of every round to compare the two hands and display the winner. A unique message will also appear when the player is dealt a blackjack and the dealer's hand will be shown. The betting buttons will once again become active and the next game will start once a bet has been made. 
-
-![example image of the player winning](https://user-images.githubusercontent.com/118208853/210889653-3875f312-e6f9-461b-adb5-3e09e6278bf1.png)
-![example image of the dealer winning](https://user-images.githubusercontent.com/118208853/210889660-62032561-eff1-4826-8d62-2e0a4d964e5e.png)
-![example image of player getting a Blackjack](https://user-images.githubusercontent.com/118208853/210889758-0bf2f4c7-1816-4ebe-902a-8ced05779b7c.png)
+A message will be rendered at the end of every round to compare the two hands and display the winner. A unique message will also appear when the player is dealt a blackjack and the dealer's hand will be shown. The betting buttons will once again become active and the next game will start once a bet has been made. 
 
 For those who are curious about the text and icon at the bottom of the table, I lightly themed my game around my favorite piece of fiction so it's a little easter egg for anyone who may recognize it. 
 
