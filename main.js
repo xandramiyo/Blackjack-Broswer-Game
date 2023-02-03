@@ -17,16 +17,32 @@ const PLAYERS = {
 
 /*----- app's state (variables) -----*/
 
-let turn, winner, blackjack, playerHand, dealerHand
+let turn, winner, playerHand, dealerHand, bet
+let gameCount = 0
+let winCount = 0
+let earnings = 1000
 
 
 /*----- cached element references -----*/
+const dealerDiv=  document.querySelector('.dealer')
 const hitBtn = document.getElementById('hit')
 const stayBtn = document.getElementById('stay')
 const resetBtnEl = document.createElement('button')
 const playBtn = document.getElementById('play')
+const ten = document.getElementById('ten')
+const twenty = document.getElementById('twenty')
+const fifty = document.getElementById('fifty')
+const hundred = document.getElementById('hundred')
 
+let games = document.getElementById('games')
+let wins = document.getElementById('wins')
+let bank = document.getElementById('bank')
+let betBtns = document.querySelectorAll('.betBtn')
 let message = document.querySelector('h2')
+let statText = document.querySelector('stats')
+let streak = document.querySelector('streak')
+
+
 
 /*----- event listeners -----*/
  
@@ -36,16 +52,45 @@ resetBtnEl.addEventListener('click', handleReset)
 playBtn.addEventListener('click', init)
 
 
+ten.addEventListener('click', function() {
+    bet = 10
+    placeBets()
+})
+twenty.addEventListener('click', function() {
+    bet = 20
+    placeBets()
+})
+fifty.addEventListener('click', function() {
+    bet = 50
+    placeBets()
+})
+hundred.addEventListener('click', function() {
+    bet = 100
+    placeBets()
+})
+
+
 /*----- functions -----*/
 
 function init() {
+    dealerDiv.classList.remove('hidden')
+
+    playBtnEnable()
     playBtn.innerHTML = " "
-    turn = 1
+    bank.innerHTML = `Bank: $${earnings}`
+    turn = 1    
     generateDeck()
     shuffleDeck()
     drawHands()
     renderPlayerHand()
     renderDealerHand()
+    winStreak()
+    message.innerText = " "
+}
+
+function placeBets() {
+    handleReset()
+    betBtnDisable()
 }
 
 function generateDeck() {
@@ -72,14 +117,14 @@ function drawHands() {
     dealerHand = deck.splice(0, 2) 
     if (sumHand(playerHand) === 21) {
         if(sumHand(dealerHand) !== 21) {
-        hitBtn.setAttribute("disabled", "")
-        stayBtn.setAttribute("disabled", "")
+        playBtnDisable()
         message.innerText = "BLACKJACK!"
+        earnings += (bet + (bet * 1.5))
         renderDealerHand()
-        renderResetBtn()
+        // renderResetBtn()
         } else if (sumHand(dealerHand) === 21) {
             message.innerText = "It's a Push!"
-            renderResetBtn()
+            // renderResetBtn()
         }
     }
 }
@@ -113,8 +158,7 @@ function hit() {
 }
 
 function stay() {
-    stayBtn.setAttribute("disabled", "")
-    hitBtn.setAttribute("disabled", "")
+    playBtnDisable()
     if (turn === 1) {
         changeTurn()
         renderDealerHand()
@@ -157,7 +201,7 @@ function dealerPlay() {
           }
     } else if (sumHand(dealerHand) > 21) {
         message.innerText = "Dealer busts! Player wins!"
-        renderResetBtn()
+        // renderResetBtn()
     } else if (sumHand(dealerHand) >= 17) {  
         checkWinner()
     } 
@@ -168,14 +212,12 @@ function checkWinner() {
     renderDealerHand()
     if (turn === 1) {  
         if (sumHand(playerHand) === 21) {
-            hitBtn.setAttribute("disabled", "")
-            stayBtn.setAttribute("disabled", "")
+            playBtnDisable()
             changeTurn()
             dealerPlay()
         } else if (sumHand(playerHand) > 21) {
-            hitBtn.setAttribute("disabled", "")
-            stayBtn.setAttribute("disabled", "")
-            message.innerText = 'Player busts! Dealer wins!'
+            playBtnDisable()
+            message.innerText = "Player busts! Dealer wins!"
             changeTurn()
             renderDealerHand()
         } 
@@ -193,20 +235,72 @@ function checkWinner() {
             message.innerText = "Player Wins!"
         } 
     }
+    calcEarnings()
+    betBtnEnable()
     if (message.innerText !== "") {
-        renderResetBtn()
+        // renderResetBtn()
     }
 } 
 
-function renderResetBtn() {
-    resetBtnEl.innerText = 'Play Again!'
-    document.querySelector('.message').append(resetBtnEl);
+// function renderResetBtn() {
+//     resetBtnEl.innerText = "Play Again!"
+//     document.querySelector(".message").append(resetBtnEl);
+// }
+
+function handleReset() {
+    resetBtnEl.remove()
+    playBtnEnable()
+    init()
 }
 
-function handleReset () {
-    resetBtnEl.remove()
-    message.innerText = " "
+function winStreak() {
+    if (playBtn.innerHTML = " ") {
+        if ((message.innerText === "BLACKJACK!") || (message.innerText === "Player Wins!") || (message.innerText === "Dealer busts! Player wins!")) {
+            gameCount += 1
+            winCount += 1
+            games.innerText = `Games: ${gameCount}`
+            wins.innerText = `Wins: ${winCount}`
+        } else {
+            gameCount += 1
+            games.innerText = `Games: ${gameCount}`
+        }
+    }
+}
+
+function calcEarnings() {
+    console.log(bet)
+    if((message.innerText === "BLACKJACK!")) {
+        earnings += (bet + (bet * 1.5))
+    } else if((message.innerText === "Player Wins!") || (message.innerText === "Dealer busts! Player wins!")) {
+        earnings += bet
+    } 
+    else if((message.innerText === "Dealer Wins!") || (message.innerText = "Player busts! Dealer wins!")) {
+        earnings -= bet
+    }
+    return earnings
+}
+
+function betBtnDisable() {
+    ten.setAttribute("disabled", "")
+    twenty.setAttribute("disabled", "")
+    fifty.setAttribute("disabled", "")
+    hundred.setAttribute("disabled", "")
+}
+
+function betBtnEnable() {
+    ten.removeAttribute("disabled")
+    twenty.removeAttribute("disabled")
+    fifty.removeAttribute("disabled")
+    hundred.removeAttribute("disabled")
+    playBtnDisable()
+}
+
+function playBtnEnable() {
     hitBtn.removeAttribute("disabled")
     stayBtn.removeAttribute("disabled")
-    init()
+}
+
+function playBtnDisable() {
+    hitBtn.setAttribute("disabled", "")
+    stayBtn.setAttribute("disabled", "")
 }

@@ -10,37 +10,41 @@ body {
 }
 
 .table {
+    /* height: 80%; */
     background: linear-gradient(45deg, rgb(111, 99, 146), rgb(176, 165, 210)) no-repeat;
-    height: 90vh;
-    width: 100vw;
-    flex-wrap: wrap;
     align-items: center;
     justify-content: center;
     margin: auto;
     border: 4px solid black;
-    display: flex;
+    display: grid;
+    grid-template-columns: 1fr 4fr;
+    grid-template-rows: 1.5fr 1.5fr 1.5fr  1.5fr .5fr;
+    grid-template-areas: 
+        ". dealer" 
+        ".  text" 
+        "stats player" 
+        "betBtn buttons"
+        ". logo" 
 }
 
 .dealer{ 
-    display: grid;
-    grid-template-rows: 1fr 5fr;
-    height: 30%;
-    width: 100%;
+    grid-area: dealer;
     justify-content: center;
     align-items: center;
+    margin: 10px;
+    border: 2px solid white;
+    margin: 10px 40px;
 }
 
 .dealerHand {
+    grid-area: dealer;
     display: flex;
     position: relative;
     flex-wrap: wrap;
-    border: 2px solid white;
-    margin: 20px;
-    width: 40vw;
-    height: 15vh;
+    height: fit-content;
+    padding: 10px;
     justify-content: center;
     align-items: center;
-
 }
 
 .dealerHand > div {
@@ -49,7 +53,9 @@ body {
 }
 
 .tableText {
+    grid-area: text;
     width: 100%;
+    height: 23vh;
 }
 
  .title {
@@ -89,24 +95,21 @@ h2 {
 }
 
 .player {
-    display: grid;
-    grid-template-rows: 4fr 1.5fr;
+    grid-area: player;
     position: relative;
-    bottom: 0;
-    height: 30%;
-    width: 100%;
     justify-content: center;
     align-items: center;
+    border: 2px white solid;
+    margin: 10px 40px;
 }
 
 .playerHand {
+    grid-area: player;
     display: flex;
     position: relative;
     flex-wrap: wrap;
-    border: 2px solid white;
-    margin: 20px;
-    width: 40vw;
-    height: 15vh;
+    height: fit-content;
+    padding: 10px;
     justify-content: center;
     align-items: center;
 }
@@ -114,6 +117,12 @@ h2 {
 .playerHand > div {
     justify-content: space-evenly;
     margin: 0 .5rem 0 .5rem;
+}
+
+.buttonArea {
+    grid-area: buttons;
+    justify-content: center;
+    align-items: center;
 }
 
 .buttons {
@@ -149,6 +158,7 @@ button:disabled {
 }
 
 .casino {
+    grid-area: logo;
     font-family: 'PT Sans Caption', sans-serif;
     font-size: .9rem;  
     color: white; 
@@ -164,4 +174,54 @@ button:disabled {
 img {
     height: 3rem;
     width: 3rem;
+}
+
+.stats {
+    grid-row-start: stats;
+    grid-column-start: stats;
+    grid-row-end: bet;
+    grid-column-end: stats;
+    /* border: 2px white solid; */
+    bottom: .5fr;
+    margin: 25px;
+}
+
+.streak {
+    display: flex;
+    font: 1.2rem;
+    margin: 0;
+    width: 100%;
+    display: inline-block;
+    margin-left: 10px;
+    padding: 0;
+    justify-content: space-around;
+}
+
+ul {
+    height: 100%;
+    width: 100%;
+}
+
+li {
+    list-style: none;
+    margin-bottom: 10px;
+}
+
+.betBtns {
+    grid-area: betBtn;
+    display: flex;
+    flex-wrap: wrap;
+    justify-content: space-around;
+}
+
+.betBtns button {
+    grid-area: betBtn;
+    height: 2rem;
+    width: 4rem;
+    font-size: 1rem;
+    padding: 2px;
+}
+
+.hidden {
+    opacity: 0;
 }

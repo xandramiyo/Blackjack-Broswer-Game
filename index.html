@@ -15,7 +15,7 @@
 
 <body>
     <div class= "table">
-        <div class="dealer">
+        <div class="dealer hidden">
             <div class="chips"></div>
             <div class="dealerHand"></div>
         </div>
@@ -30,12 +30,27 @@
             <div class="playerHand">
                 <button id="play">PLAY</button>
             </div>
+        </div>
+        <div class="buttonArea">
             <div class="buttons">
-                <button id="hit">HIT</button>
-                <button id="stay">STAY</button>
+                <button id="hit" disabled>HIT</button>
+                <button id="stay" disabled>STAY</button>
             </div>
         </div>
         <div class="casino">RAINBASE<img src="https://icons.iconarchive.com/icons/crountch/one-piece-jolly-roger/256/Baroque-Works-icon.png"></div>
+        <div class="stats">
+            <ul class="streak">
+                <li id="games">Games: </li>
+                <li id="wins"> Wins: </li>
+                <li id="bank">Bank: </li>
+            </ul>
+            <div class="betBtns">
+                <button class="betBtn" id="ten">$10</button>
+                <button class="betBtn" id="twenty">$20</button>
+                <button class="betBtn" id="fifty">$50</button>
+                <button class="betBtn" id="hundred">$100</button>
+            </div>
+        </div>
     </div>
 </body>
 </html> 
