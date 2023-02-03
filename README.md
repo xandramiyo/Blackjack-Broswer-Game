@@ -28,10 +28,10 @@ For those who are curious about the text and icon at the bottom of the table, I 
 
 [Click here to play](https://xandramiyo.github.io/Project-1/)
 
-## Possible Future Enhancements
+## Future Enhancements
 
-The first possible enhancement is a feature that keeps track of player wins and losses. With this, I would also implement a tracker at the bottom of the screen to display the longest player win streak during the current session. 
+Add functionality for insurance in the case of possible dealer Blackjack. I would also like to add the options to split and double down.
 
-The second enhancement would be to add gambling. This would also entail adding functions to allow the player to split, double down, and for the dealer to request insurance in the case that their opening hand is possibly a blackjack. 
+## Current Bugs
 
-Finally, I would include responsive design so that the game requires the browser window to be a certain minimum size. 
+In some cases, if the player hand has face cards, the game will incorrectly render a "player bust" message even if the sum of the hand is under 21 and will subsequently reduce the current earnings pool. 
