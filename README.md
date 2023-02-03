@@ -34,6 +34,6 @@ Add functionality for insurance in the case of possible dealer Blackjack. I woul
 
 ## Current Bugs
 
-In some cases, if the player hand has face cards, the game will incorrectly render a "player bust" message even if the sum of the hand is under 21 and will subsequently reduce the current earnings pool. 
+In some cases, if the player hand equals 20, the game will incorrectly render a "player bust" message and will subsequently reduce the current earnings pool. 
 
 The game also occassionally incorrectly subtracts a bet, causing the player's earning pool to be reduced by double the bet. 
